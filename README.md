@@ -122,12 +122,12 @@ sentaku.sh
 ## クラス詳細
 
 ### GhmRepo
-    * データ属性 token
-        * Githubトークン
-    * メソッド
-        * get_repo
-            * リポジトリを取得し配列で返す
-        * read_folder_names
-            * フォルダ名を返す
-        * read_readme
-            * README.md をprintで返す
+* データ属性 token
+    * Githubトークン
+* メソッド
+    * get_repo
+        * リポジトリを取得し配列で返す
+    * read_folder_names
+        * フォルダ名を返す
+    * read_readme
+        * README.md をprintで返す
