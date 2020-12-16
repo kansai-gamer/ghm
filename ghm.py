@@ -1,4 +1,3 @@
-from github import Github
 import os
 from ghm_class import GhmRepo
 
@@ -11,7 +10,11 @@ with open("gh_token.txt", mode="r", encoding="utf-8") as f:
     #インスタンス生成
     ghm = GhmRepo(f.read())
 
-# print(ghm.get_repo())
+print("welcome to Github Manager")
+for number, repos in enumerate(ghm.get_repo()):
+    print(number + 1, ":", repos)
+usertype = input("plz select to repo:")
+
 
 print(ghm.read_folder_names("kansai-gamer","bash"))
 

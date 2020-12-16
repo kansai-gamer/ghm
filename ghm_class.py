@@ -16,8 +16,11 @@ class GhmRepo:
         g = Github(self.token)
         repo = g.get_repo(user+"/"+repo)
         contents = repo.get_contents("")
+        x = []
         for content_file in contents:
-            return content_file.name
+            x.append(content_file.name)
+        return x
+
         
     def read_readme(self,user,repo):
         g = Github(self.token)
