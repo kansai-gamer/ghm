@@ -3,6 +3,7 @@ from ghm_class import GhmRepo
 
 if not os.path.isfile("gh_token.txt"):
     #ユーザーIDも必要ぽいので同じファイルに格納する
+    #一旦リストにしてから書き込み
     write = []
     write.append(input("pls type your Github ID:"))
     write.append(input("pls type your Github token:"))
@@ -23,17 +24,18 @@ print("welcome to Github Manager\nplz select to repo")
 for number, repos in enumerate(ghm.get_repo()):
     print(number + 1, ":", repos)
 user_type_repo = input("waiting:")
+user_type_repo_int = int(user_type_repo)
 
 print("pls select")
 options = ["clone", "Read README.md", "View folder"]
 for number, option in enumerate(options):
     print(number + 1, ":", option)
 user_type_option = input("waiting:")
+user_type_option_int = int(user_type_option)
 
-if user_type_option == 1:
+if user_type_option_int == 1:
     pass
-elif user_type_option == 2:
-    ghm.read_readme("kansai-gamer","bash")
-
-
-# print(ghm.read_folder_names("kansai-gamer","bash"))
+elif user_type_option_int == 2:
+    print(ghm.read_readme(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+elif user_type_option_int == 3:
+    print(ghm.read_folder_names(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))

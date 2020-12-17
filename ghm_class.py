@@ -27,4 +27,4 @@ class GhmRepo:
         repo = g.get_repo(user+"/"+repo)
         contents = repo.get_contents("README.md")
         content = base64.b64decode(contents.content)
-        print(content.decode())
+        return content.decode()
