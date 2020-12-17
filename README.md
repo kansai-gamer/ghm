@@ -130,4 +130,4 @@ sentaku.sh
     * read_folder_names
         * フォルダ名を返す
     * read_readme
-        * README.md をprintで返す
+        * README.md を返す
