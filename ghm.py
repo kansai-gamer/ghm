@@ -20,22 +20,39 @@ with open("gh_token.txt", mode="r", encoding="utf-8") as f:
     #↓デバッグ用
     # print(token[0].strip())
 
-print("welcome to Github Manager\nplz select to repo")
-for number, repos in enumerate(ghm.get_repo()):
-    print(number + 1, ":", repos)
-user_type_repo = input("waiting:")
-user_type_repo_int = int(user_type_repo)
+print("welcome to Github Manager")
 
-print("pls select")
-options = ["clone", "Read README.md", "View folder"]
-for number, option in enumerate(options):
-    print(number + 1, ":", option)
-user_type_option = input("waiting:")
-user_type_option_int = int(user_type_option)
+while True:
 
-if user_type_option_int == 1:
-    pass
-elif user_type_option_int == 2:
-    print(ghm.read_readme(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))
-elif user_type_option_int == 3:
-    print(ghm.read_folder_names(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+    print("pls select to repo")
+    for number, repos in enumerate(ghm.get_repo()):
+        print(number + 1, ":", repos)
+    user_type_repo = input("waiting:")
+    if user_type_repo.isdecimal():
+        user_type_repo_int = int(user_type_repo)
+        break
+    else:
+        print('\033[1m' + 'pls type number')
+
+
+while True:
+
+    print("pls select")
+    options = ["clone", "Read README.md", "View folder"]
+    for number, option in enumerate(options):
+        print(number + 1, ":", option)
+    user_type_option = input("waiting:")
+    if user_type_option.isdecimal():
+        user_type_option_int = int(user_type_option)
+    else:
+        print('\033[1m' + "pls type number")
+        
+    if user_type_option_int == 1:
+        pass
+    elif user_type_option_int == 2:
+        print(ghm.read_readme(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+        continue
+    elif user_type_option_int == 3:
+        print(ghm.read_folder_names(token[1].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+        continue
+
