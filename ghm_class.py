@@ -28,3 +28,4 @@ class GhmRepo:
         contents = repo.get_contents("README.md")
         content = base64.b64decode(contents.content)
         return content.decode()
+        #参考元 https://www.python.ambitious-engineer.com/archives/2066
