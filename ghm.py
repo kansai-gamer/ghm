@@ -23,7 +23,7 @@ print("welcome to Github Manager")
 #デバッグ用 ID読み取り確認
 # print(token[0].strip())
 #デバッグ用 トークン読み取り確認
-# print(token[1].strip())
+#print(token[1].strip())
 
 def Listen_repo(ghm):
 
@@ -34,8 +34,11 @@ def Listen_repo(ghm):
             print(number + 1, ":", repos)
         user_type_repo = input("waiting:")
         if user_type_repo.isdecimal():
-            # user_type_repo_int = int(user_type_repo)
-            return int(user_type_repo)
+            user_type_repo_int = int(user_type_repo)
+            if user_type_repo_int <= len(ghm.get_repo()):
+                return user_type_repo_int
+            else:
+                print("\033[1m" + "Out of range\033[0m")
         else:
             # print('\033[1m' + 'pls type number')
             print("\033[1m" + "pls type number\033[0m")
@@ -56,9 +59,11 @@ while True:
     else:
         print("\033[1m" + "pls type number\033[0m")
         
+
     if user_type_option_int == 1:
         command = 'git clone','https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
-        subprocess.call(command)
+        #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
+        subprocess.call(command, shell=True)
     elif user_type_option_int == 2:
         print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
         continue
@@ -67,3 +72,5 @@ while True:
         continue
     elif user_type_option_int == 4:
         user_type_repo_int = Listen_repo(ghm)
+    else:
+        print(print("\033[1m" + "Out of range\033[0m"))
