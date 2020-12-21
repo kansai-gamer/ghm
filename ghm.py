@@ -59,9 +59,8 @@ while True:
     else:
         print("\033[1m" + "pls type number\033[0m")
         
-
     if user_type_option_int == 1:
-        command = 'git clone','https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
+        command = 'git clone '+'https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
         #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
         subprocess.call(command, shell=True)
     elif user_type_option_int == 2:
