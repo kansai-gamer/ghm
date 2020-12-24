@@ -52,30 +52,33 @@ def Listen_repo(ghm):
 #もっとスマートなやり方ありそうな気がするけど、とりあえずこうする
 user_type_repo_int = Listen_repo(ghm)
 
-while True:
+def Function_selection(user_type_repo_int):
+    while True:
 
-    # print("\033[1m" + "pls select\033[0m")
-    print("pls select")
-    options = ["clone", "Read README.md", "View folder", "back to select repo"]
-    for number, option in enumerate(options):
-        print(number + 1, ":", option)
-    user_type_option = input("waiting:")
-    if user_type_option.isdecimal():
-        user_type_option_int = int(user_type_option)
-    else:
-        print("\033[1m" + "pls type number\033[0m")
-        
-    if user_type_option_int == 1:#なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名を代入して実行してるだけ
-        command = 'git clone '+'https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
-        #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
-        subprocess.call(command, shell=True)
-    elif user_type_option_int == 2:#こっちも長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
-        print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
-        continue
-    elif user_type_option_int == 3:#こっちも投げて値が帰ってきてるだけ
-        print(ghm.read_folder_names(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
-        continue
-    elif user_type_option_int == 4:#定義した関数を呼び出してリポジトリ選択へ戻る
-        user_type_repo_int = Listen_repo(ghm)
-    else:
-        print(print("\033[1m" + "Out of range\033[0m"))
+        # print("\033[1m" + "pls select\033[0m")
+        print("pls select")
+        options = ["clone", "Read README.md", "View folder", "back to select repo"]
+        for number, option in enumerate(options):
+            print(number + 1, ":", option)
+        user_type_option = input("waiting:")
+        if user_type_option.isdecimal():
+            user_type_option_int = int(user_type_option)
+        else:
+            print("\033[1m" + "pls type number\033[0m")
+            
+        if user_type_option_int == 1:#なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名を代入して実行してるだけ
+            command = 'git clone '+'https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
+            #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
+            subprocess.call(command, shell=True)
+        elif user_type_option_int == 2:#こっちも長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
+            print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+            continue
+        elif user_type_option_int == 3:#こっちも投げて値が帰ってきてるだけ
+            print(ghm.read_folder_names(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+            continue
+        elif user_type_option_int == 4:#定義した関数を呼び出してリポジトリ選択へ戻る
+            user_type_repo_int = Listen_repo(ghm)
+        else:
+            print(print("\033[1m" + "Out of range\033[0m"))
+
+Function_selection(user_type_repo_int)
