@@ -13,10 +13,7 @@ Github管理補助ツール
 
 * 選択したリポジトリをクローンする
 * 簡易的なREADME表示
-* 簡易的なフォルダ表示
-* リポジトリで使われているソフトウェア・モジュールバージョンの管理(目標)※  
-※現時点ではREDME.mdに仕様に沿って記載してもらい、それを読み込むことで管理する  
-といった仕様で考えています。
+* 超簡易的なリポジトリ内フォルダ表示
 
 ## 動作イメージ  
 ```bash
@@ -48,11 +45,12 @@ plz select
 1: Clone
 2: Read README.md
 3: View folder
-4: View module and Software version
+4: back to select repo
 
 waiting:
 ```
-※現時点ではこうなっていますが、スケジュールが許せば機能追加予定です。
+> キーボードから利用する機能の番号を選択します。  
+※現時点ではこうなっていますが、気が向いたら機能追加予定です。
 ```bash
 waiting: 1
 
@@ -64,39 +62,25 @@ remote: Total 72 (delta 33), reused 48 (delta 15), pack-reused 0
 Unpacking objects: 100% (72/72), 11.10 KiB | 51.00 KiB/s, done.
 
 ```
+>github からリポジトリをクローンします。（gitがインストールされている必要があります）
 ```bash
 waiting: 2
 
 # bash
 再利用禁止
 ```
+>リポジトリのREADME.mdファイルを表示します。
 
 ```bash
-README.md
-3 months ago
-graph.sh
-0917
-3 months ago
-hikisuu.sh
-0917
-3 months ago
-nums.log
-0924
-3 months ago
-randomgame.sh
-0903
-3 months ago
-readlog.sh
-0924
-3 months ago
-script13_select.sh
-0924
-3 months ago
-sentaku.sh
-0924
-3 months ago
-入数数値前後比較.sh
+waiting:3
+['README.md', 'graph.sh', 'hikisuu.sh', 'nums.log', 'randomgame.sh', 'readlog.sh', 'script13_select.sh', 'sentaku.sh', '入数数値前後比較.sh']
+pls select
+1 : clone
+2 : Read README.md
+3 : View folder
+4 : back to select repo
 ```
+>かなり簡易的にリポジトリ内のフォルダを表示します。
 
 ---
 # 設計
@@ -108,26 +92,21 @@ sentaku.sh
 * ghm_class.py
     * GHM動作に必要なクラスファイル
 * gh_token.txt
-    * 動作に必要なトークンを保存しているファイル
+    * 動作に必要なトークンを保存しているファイル（プログラム初回起動時に生成）
 
 ## クラス一覧
 * GhmRepo
     * リポジトリを取得
 * GHMError
-    * 例外処理用
-* Readfiles
-    * README.mdやフォルダ構成、バージョン情報(README.md)を読む
-* 
+    * 例外処理用（現時点では未実装）
 
 ## クラス詳細
 
 ### GhmRepo
-* データ属性 token
-    * Githubトークン
 * メソッド
     * get_repo
         * リポジトリを取得し配列で返す
     * read_folder_names
         * フォルダ名を返す
     * read_readme
-        * README.md を返す
+        * README.md をprintで返す
