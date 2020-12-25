@@ -6,21 +6,18 @@ import base64
 
 class GhmRepo:
     def __init__(self,token):
-        self.token = token
+        self.g = Github(token)
 
     def get_repo(self):#リポジトリを取得する、プログラム内で再利用できるようにリストで戻り値を返す
-        g = Github(self.token)
         reponames = []
         #多分元データがリストのはずなんだが、元のリストで返す方法が分からずとりあえず新しくリストを作成して対応
-        for repo in g.get_user().get_repos(type='owner'):
+        for repo in self.g.get_user().get_repos(type='owner'):
             reponames.append(repo.name)
         return reponames
 
     def read_folder_names(self,user,repo):#フォルダを取得する、こっちも拡張性を考えリストで返してるが、現状再利用予定なし
-        #↓今思ったけど__init__に書いとけばいちいち書かなくてすんだかも
-        g = Github(self.token)
         #ユーザーIDをリポ名を貰ってフォルダ情報を取得
-        repo = g.get_repo(user+"/"+repo)
+        repo = self.g.get_repo(user+"/"+repo)
         contents = repo.get_contents("")
         filenames = []
         #取得したフォルダ情報をリストで返す
@@ -30,9 +27,8 @@ class GhmRepo:
 
         
     def read_readme(self,user,repo):#README.mdを取得する、これが地味に大変だったよ
-        g = Github(self.token)
         #ユーザーIDをリポ名を貰う
-        repo = g.get_repo(user+"/"+repo)
+        repo = self.g.get_repo(user+"/"+repo)
         #README.mdを取得、余談だが"README.md"の部分を他のファイル名に書き換えて読み込むことも可能
         #ただしGithubの仕様上容量制限が厳しいので実質テキストファイルしか無理
         contents = repo.get_contents("README.md")
