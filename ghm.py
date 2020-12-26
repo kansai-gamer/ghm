@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 from ghm_class import GhmRepo
 
 #ファイルが存在するかの確認だけなので if not
@@ -31,11 +32,16 @@ def Listen_repo(ghm):
 
     while True:
 
-        print("pls select to repo")
-        #こう書くと数字付きで出せるとクラスメイトにアドバイス貰ったので参考にしました。
-        for number, repos in enumerate(ghm.get_repo()):
-            print(number + 1, ":", repos)
-        user_type_repo = input("waiting:")
+        try:
+            print("pls select to repo")
+            #こう書くと数字付きで出せるとクラスメイトにアドバイス貰ったので参考にしました。
+            for number, repos in enumerate(ghm.get_repo()):
+                print(number + 1, ":", repos)
+            user_type_repo = input("waiting:")
+        except :
+            print("\033[1m" + "pls check token or id\033[0m")
+            sys.exit(1)
+
         #↓ユーザーの入力文章が数値かどうかの判定これもクラスメイト（ｒｙ
         if user_type_repo.isdecimal():
             user_type_repo_int = int(user_type_repo)
@@ -45,13 +51,11 @@ def Listen_repo(ghm):
             else:#先生からのアドバイスのおかげで正しく太文字に出来ました。
                 print("\033[1m" + "Out of range\033[0m")
         else:
-            # print('\033[1m' + 'pls type number')
             print("\033[1m" + "pls type number\033[0m")
 
 def Function_selection(user_type_repo_int):
     while True:
 
-        # print("\033[1m" + "pls select\033[0m")
         print("pls select")
         options = ["clone", "Read README.md", "View folder", "back to select repo"]
         for number, option in enumerate(options):

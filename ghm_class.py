@@ -4,16 +4,20 @@ import base64
 #このサイトを見て「なんか作れるんじゃね?」と思ったのが始まり
 #https://dev.classmethod.jp/articles/get-github-info-using-pygithub/
 
-class GhmRepo:
+class GhmRepo(Exception):
     def __init__(self,token):
         self.g = Github(token)
 
     def get_repo(self):#リポジトリを取得する、プログラム内で再利用できるようにリストで戻り値を返す
         reponames = []
         #多分元データがリストのはずなんだが、元のリストで返す方法が分からずとりあえず新しくリストを作成して対応
-        for repo in self.g.get_user().get_repos(type='owner'):
-            reponames.append(repo.name)
-        return reponames
+        try:
+
+            for repo in self.g.get_user().get_repos(type='owner'):
+                reponames.append(repo.name)
+            return reponames
+        except :
+            pass
 
     def read_folder_names(self,user,repo):#フォルダを取得する、こっちも拡張性を考えリストで返してるが、現状再利用予定なし
         #ユーザーIDをリポ名を貰ってフォルダ情報を取得
