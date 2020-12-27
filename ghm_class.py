@@ -40,3 +40,7 @@ class GhmRepo(Exception):
         content = base64.b64decode(contents.content)
         return content.decode()
         #参考元 https://www.python.ambitious-engineer.com/archives/2066
+
+    def get_branch(self,user,repo):
+        repo = self.g.get_repo(user+"/"+repo)
+        return repo.get_branch(branch="master")

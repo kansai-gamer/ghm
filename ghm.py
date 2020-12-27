@@ -80,6 +80,8 @@ def Function_selection(user_type_repo_int):
             continue
         elif user_type_option_int == 4:#定義した関数を呼び出してリポジトリ選択へ戻る
             user_type_repo_int = Listen_repo(ghm)
+        elif user_type_option_int == 5:#ブランチ情報を表示
+            print(ghm.get_branch(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
         else:
             print("\033[1m" + "Out of range\033[0m")
             continue
