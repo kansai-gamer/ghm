@@ -96,16 +96,14 @@ pls select
 
 ## クラス一覧
 * GhmRepo
-    * リポジトリを取得
-* GHMError
-    * 例外処理用（現時点では未実装）
 
 ## クラス詳細
 
 ### GhmRepo
 * メソッド
     * get_repo
-        * リポジトリを取得し配列で返す
+        * リポジトリを取得し配列で返す、起動時に必ず実行される。  
+        Githubへのログインエラーが発生した場合は例外を返す
     * read_folder_names
         * フォルダ名を返す
     * read_readme
