@@ -41,6 +41,17 @@ class GhmRepo(Exception):
         return content.decode()
         #参考元 https://www.python.ambitious-engineer.com/archives/2066
 
-    def get_branch(self,user,repo):
+    def get_issues(self,user,repo):
         repo = self.g.get_repo(user+"/"+repo)
-        return list(repo.get_branches())
+        open_issues = repo.get_issues(state='open')
+        issues = []
+        for issue in open_issues:
+            issues.append(issue)
+        return issues
+
+    def get_branch(self,user,repo):
+        branchs = []
+        repo = self.g.get_repo(user+"/"+repo)
+        for branch in repo.get_branches():
+            branchs.append(branch.name)
+        return branchs
