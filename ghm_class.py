@@ -43,4 +43,4 @@ class GhmRepo(Exception):
 
     def get_branch(self,user,repo):
         repo = self.g.get_repo(user+"/"+repo)
-        return repo.get_branch(branch="master")
+        return list(repo.get_branches())
