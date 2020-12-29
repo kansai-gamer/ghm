@@ -31,10 +31,10 @@ class GhmRepo(Exception):
 
         
     def read_readme(self,user,repo):#README.mdを取得する、これが地味に大変だったよ
-        #ユーザーIDをリポ名を貰う
+        #ユーザーIDとリポ名を貰う
         repo = self.g.get_repo(user+"/"+repo)
         #README.mdを取得、余談だが"README.md"の部分を他のファイル名に書き換えて読み込むことも可能
-        #ただしGithubの仕様上容量制限が厳しいので実質テキストファイルしか無理
+        #ただしこの方法だとGithubの仕様上容量制限が厳しいので実質テキストファイルしか無理
         contents = repo.get_contents("README.md")
         #base64で帰ってくるのでデコードして返す
         content = base64.b64decode(contents.content)
