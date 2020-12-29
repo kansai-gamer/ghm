@@ -108,3 +108,7 @@ pls select
         * フォルダ名を返す
     * read_readme
         * README.md をprintで返す
+    * get_issues
+        * issuesを取得するし配列で返す(現在未完成)
+    * get_branch
+        * ブランチを取得し配列で返す
