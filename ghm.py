@@ -106,6 +106,7 @@ def clone(user_type_repo_int):
         #範囲外を選んでないかの確認
         if len(branchs) < user_type_option_int:
             print("out of range")
+            continue
         #なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名&ブランチ名を代入して実行してるだけ
         command = 'git clone -b '+ branchs[user_type_option_int - 1] +' https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
         #デバッグ用
