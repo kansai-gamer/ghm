@@ -43,9 +43,8 @@ class GhmRepo(Exception):
 
     def get_issues(self,user,repo):
         repo = self.g.get_repo(user+"/"+repo)
-        open_issues = repo.get_issues(state='open')
         issues = []
-        for issue in open_issues:
+        for issue in repo.get_issues(state='open'):
             issues.append(issue)
         return issues
 
