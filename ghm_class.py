@@ -49,7 +49,7 @@ class GhmRepo(Exception):
             issues.append(issue)
         return issues
 
-    def get_branch(self,user,repo):
+    def get_branch(self,user,repo):#https://qiita.com/yshr10ic/items/a416ba6fbea7637be552
         branchs = []
         repo = self.g.get_repo(user+"/"+repo)
         for branch in repo.get_branches():

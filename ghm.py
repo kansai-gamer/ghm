@@ -40,6 +40,7 @@ def Listen_repo(ghm):
             user_type_repo = input("waiting:")
         except :
             print("\033[1m" + "pls check token or id\033[0m")
+            #確か1でエラー終了扱いだった希ガス
             sys.exit(1)
 
         #↓ユーザーの入力文章が数値かどうかの判定これもクラスメイト（ｒｙ
@@ -68,18 +69,14 @@ def Function_selection(user_type_repo_int):
             print("\033[1m" + "pls type number\033[0m")
             continue
 
-        if user_type_option_int == 1:#なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名を代入して実行してるだけ
-            command = 'git clone '+'https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
-            #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
-            subprocess.call(command, shell=True)
+        if user_type_option_int == 1:
+            clone(user_type_repo_int)
 
         elif user_type_option_int == 2:#こっちも長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
             print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
-            continue
 
         elif user_type_option_int == 3:#こっちも投げて値が帰ってきてるだけ
             print(ghm.read_folder_names(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
-            continue
 
         elif user_type_option_int == 4:#定義した関数を呼び出してリポジトリ選択へ戻る
             user_type_repo_int = Listen_repo(ghm)
@@ -92,7 +89,31 @@ def Function_selection(user_type_repo_int):
 
         else:
             print("\033[1m" + "Out of range\033[0m")
+
+def clone(user_type_repo_int):
+    while True:
+
+        print("pls select branch")
+        #ブランチ情報を表示する
+        branchs = ghm.get_branch(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1])
+        for number, branch in enumerate(branchs):
+            print(number + 1, ":", branch)
+        user_type_option = input("waiting:")
+        if not user_type_option.isdecimal():
+            print("\033[1m" + "pls type number\033[0m")
             continue
+        user_type_option_int = int(user_type_option)
+        #範囲外を選んでないかの確認
+        if len(branchs) < user_type_option_int:
+            print("out of range")
+        #なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名&ブランチ名を代入して実行してるだけ
+        command = 'git clone -b '+ branchs[user_type_option_int - 1] +' https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
+        #デバッグ用
+        # print(command)
+        #https://qiita.com/mistletoe/items/6b293710c3911d1fab59
+        subprocess.call(command, shell=True)
+        print("\033[1m" + "clone is done\033[0m")
+        Function_selection(user_type_repo_int)
 
 #最初は関数化してなかったのでとりあえずこうして変数に値を代入
 #もっとスマートなやり方ありそうな気がするけど、とりあえずこうする
