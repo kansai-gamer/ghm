@@ -2,8 +2,13 @@
 
 ## 想定利用環境  
 
-* Linux系OSのみを対象とする。  
+* Linux系OSのみを対象とする。  (もしかしたらmacでも動かせるかも？手元に環境が無いため不明)
 * PythonバージョンはPython 3.8.5を対象とする。
+
+## 依存モジュール
+
+* PyGithub (pipでインストール可)
+その他モジュールは標準のもの
 
 ## アプリケーション概要
 
@@ -109,6 +114,6 @@ pls select
     * read_readme
         * README.md をprintで返す
     * get_issues
-        * issuesを取得するし配列で返す(現在未完成)
+        * issues を取得し配列で返す
     * get_branch
         * ブランチを取得し配列で返す

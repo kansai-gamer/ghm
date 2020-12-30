@@ -46,7 +46,7 @@ def Listen_repo(ghm):
         #↓ユーザーの入力文章が数値かどうかの判定これもクラスメイト（ｒｙ
         if user_type_repo.isdecimal():
             user_type_repo_int = int(user_type_repo)
-            #リポ選択で範囲外を入力していないかの確認（これをしないと存在しない物をモジュールに渡そうとするのでエラーが起きる）
+            #リポ選択で範囲外を入力していないかの確認（これをしないと存在しない物をモジュールに渡そうとするのでモジュールの例外が発生する）
             if user_type_repo_int <= len(ghm.get_repo()):
                 return user_type_repo_int
             else:#先生からのアドバイスのおかげで正しく太文字に出来ました。
@@ -58,7 +58,9 @@ def Function_selection(user_type_repo_int):
     while True:
 
         print("pls select")
-        options = ["clone", "Read README.md", "View folder", "back to select repo", "View branch"]
+        options = ["clone", "Read README.md", "View folder", "View branch", "View Issue"]
+        #絶対最後になるようにappendで追加、ただこれif文なんとかするの忘れるとback選択したのに他の機能が発動するといったことになりそう
+        options.append("back to select repo")
         for number, option in enumerate(options):
             print(number + 1, ":", option)
         user_type_option = input("waiting:")
@@ -72,20 +74,20 @@ def Function_selection(user_type_repo_int):
         if user_type_option_int == 1:
             clone(user_type_repo_int)
 
-        elif user_type_option_int == 2:#こっちも長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
+        elif user_type_option_int == 2:#長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
             print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
 
         elif user_type_option_int == 3:#こっちも投げて値が帰ってきてるだけ
             print(ghm.read_folder_names(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
 
-        elif user_type_option_int == 4:#定義した関数を呼び出してリポジトリ選択へ戻る
-            user_type_repo_int = Listen_repo(ghm)
-
-        elif user_type_option_int == 5:#ブランチ情報を表示
+        elif user_type_option_int == 4:#ブランチ情報を表示
             print(ghm.get_branch(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
 
-        elif user_type_option_int == 6:#issues情報を表示
+        elif user_type_option_int == 5:#issues情報を表示
             print(ghm.get_issues(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
+
+        elif user_type_option_int == 6:#定義した関数を呼び出してリポジトリ選択へ戻る
+            user_type_repo_int = Listen_repo(ghm)
 
         else:
             print("\033[1m" + "Out of range\033[0m")
@@ -96,14 +98,20 @@ def clone(user_type_repo_int):
         print("pls select branch")
         #ブランチ情報を表示する
         branchs = ghm.get_branch(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1])
+        #最後に表示されるように追加、Google翻訳で英文作成
+        #本当は数字で戻れるようにしようと思ったが、面倒な気がしたので文章
+        print("\033[1m" + "Note: you can go back by typing [back]\033[0m")
         for number, branch in enumerate(branchs):
             print(number + 1, ":", branch)
         user_type_option = input("waiting:")
+        if user_type_option == "back":
+            Function_selection(user_type_repo_int)
+        #数値以外を入力していないかのチェック
         if not user_type_option.isdecimal():
             print("\033[1m" + "pls type number\033[0m")
             continue
         user_type_option_int = int(user_type_option)
-        #範囲外を選んでないかの確認
+        #範囲外を選んでないかのチェック
         if len(branchs) < user_type_option_int:
             print("\033[1m" + "out of range\033[0m")
             continue

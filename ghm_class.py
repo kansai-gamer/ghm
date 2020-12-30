@@ -10,17 +10,18 @@ class GhmRepo(Exception):
 
     def get_repo(self):#リポジトリを取得する、プログラム内で再利用できるようにリストで戻り値を返す
         reponames = []
-        #多分元データがリストのはずなんだが、元のリストで返す方法が分からずとりあえず新しくリストを作成して対応
+        #多分元データがリストのはずなんだが、元のリストで返す方法が分からず、とりあえず新しくリストを作成して対応
         try:
 
             for repo in self.g.get_user().get_repos(type='owner'):
+                                    #↓nemeをつけると名前のみの情報で返してくれる（理想通りに返してくれる）
                 reponames.append(repo.name)
             return reponames
         except :
             pass
 
-    def read_folder_names(self,user,repo):#フォルダを取得する、こっちも拡張性を考えリストで返してるが、現状再利用予定なし
-        #ユーザーIDをリポ名を貰ってフォルダ情報を取得
+    def read_folder_names(self,user,repo):#フォルダを取得する、こっちも今後の拡張性を考えリストで返してるが、現状利用予定なし
+       #ユーザーIDとリポ名を貰って、モジュールが扱える形式へくっつける
         repo = self.g.get_repo(user+"/"+repo)
         contents = repo.get_contents("")
         filenames = []
@@ -37,6 +38,8 @@ class GhmRepo(Exception):
         #ただしこの方法だとGithubの仕様上容量制限が厳しいので実質テキストファイルしか無理
         contents = repo.get_contents("README.md")
         #base64で帰ってくるのでデコードして返す
+        #テキストエディタで開いたような表示で帰ってくるが、まあ無いよりいいでしょ
+        #だれかいい感じにprintする方法知ってたら教えて
         content = base64.b64decode(contents.content)
         return content.decode()
         #参考元 https://www.python.ambitious-engineer.com/archives/2066
@@ -45,7 +48,8 @@ class GhmRepo(Exception):
         repo = self.g.get_repo(user+"/"+repo)
         issues = []
         for issue in repo.get_issues(state='open'):
-            issues.append(issue)
+            #こっちはnameじゃなくてtitleで取ってこれるようになってる
+            issues.append(issue.title)
         return issues
 
     def get_branch(self,user,repo):#https://qiita.com/yshr10ic/items/a416ba6fbea7637be552
