@@ -45,12 +45,13 @@ waiting:
 
 ```bash
 waiting:2
-plz select
-
-1: Clone
-2: Read README.md
-3: View folder
-4: back to select repo
+pls select
+1 : clone
+2 : Read README.md
+3 : View folder
+4 : View branch
+5 : View Issue
+6 : back to select repo
 
 waiting:
 ```
@@ -59,15 +60,37 @@ waiting:
 ```bash
 waiting: 1
 
+waiting:1
+pls select branch
+Note: you can go back by typing [back]
+1 : master
+waiting:
+```
+>ブランチを選択します。
+
+```bash
+
+1 : master
+waiting:1
 Cloning into 'bash'...
 remote: Enumerating objects: 72, done.
 remote: Counting objects: 100% (72/72), done.
 remote: Compressing objects: 100% (54/54), done.
 remote: Total 72 (delta 33), reused 48 (delta 15), pack-reused 0
-Unpacking objects: 100% (72/72), 11.10 KiB | 51.00 KiB/s, done.
+Unpacking objects: 100% (72/72), 11.10 KiB | 541.00 KiB/s, done.
+clone is done
+pls select
+1 : clone
+2 : Read README.md
+3 : View folder
+4 : View branch
+5 : View Issue
+6 : back to select repo
+waiting:
 
 ```
->github からリポジトリをクローンします。（gitがインストールされている必要があります）
+> 選択したブランチをcloneし機能選択画面へ戻ります。
+
 ```bash
 waiting: 2
 
@@ -83,9 +106,41 @@ pls select
 1 : clone
 2 : Read README.md
 3 : View folder
-4 : back to select repo
+4 : View branch
+5 : View Issue
+6 : back to select repo
+waiting:
 ```
 >かなり簡易的にリポジトリ内のフォルダを表示します。
+
+```bash
+waiting:4
+['master']
+pls select
+1 : clone
+2 : Read README.md
+3 : View folder
+4 : View branch
+5 : View Issue
+6 : back to select repo
+waiting:
+```
+
+>かなり簡易的にブランチを表示します
+
+```bash
+waiting:5
+['README.mdの内容が古い', 'Issueを簡易的に表示したい']
+pls select
+1 : clone
+2 : Read README.md
+3 : View folder
+4 : View branch
+5 : View Issue
+6 : back to select repo
+waiting:
+```
+>Issueのタイトルを簡易的に表示します(今後仕様変更予定)
 
 ---
 # 設計
@@ -114,6 +169,6 @@ pls select
     * read_readme
         * README.md をprintで返す
     * get_issues
-        * issues を取得し配列で返す
+        * issues のタイトルを取得し配列で返す
     * get_branch
         * ブランチを取得し配列で返す
