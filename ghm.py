@@ -3,9 +3,9 @@ import subprocess
 import sys
 from ghm_class import GhmRepo
 
-#ファイルが存在するかの確認だけなので if not
+#ファイルが存在するかの確認
 if not os.path.isfile("gh_token.txt"):
-    #ユーザーIDも必要ぽいので同じファイルに格納する
+    #ユーザーIDも必要なので同じファイルに格納する
     #一旦リストにしてから書き込み
     write = []
     write.append(input("pls type your Github ID:"))
@@ -19,7 +19,7 @@ with open("gh_token.txt", mode="r", encoding="utf-8") as f:
     token = f.readlines()
     #インスタンス生成
     ghm = GhmRepo(token[1].strip())
-                            #↑改行コードの削除
+    #                       ↑改行コードの削除
 
 print("welcome to Github Manager")
 #デバッグ用 ID読み取り確認
@@ -29,6 +29,9 @@ print("welcome to Github Manager")
 
 #あとで戻ってこれるように関数化、先生のアドバイスを参考
 def Listen_repo(ghm):
+    """
+    リポジトリ選択
+    """
 
     while True:
 
@@ -38,15 +41,17 @@ def Listen_repo(ghm):
             for number, repos in enumerate(ghm.get_repo()):
                 print(number + 1, ":", repos)
             user_type_repo = input("waiting:")
+            print("test print")
+            print(user_type_repo)
         except :
             print("\033[1m" + "pls check token or id\033[0m")
-            #確か1でエラー終了扱いだった希ガス
+            #確か1でエラー終了扱い
             sys.exit(1)
 
         #↓ユーザーの入力文章が数値かどうかの判定これもクラスメイト（ｒｙ
         if user_type_repo.isdecimal():
             user_type_repo_int = int(user_type_repo)
-            #リポ選択で範囲外を入力していないかの確認（これをしないと存在しない物をモジュールに渡そうとするのでモジュールの例外が発生する）
+            #リポ選択で範囲外を入力していないかの確認
             if user_type_repo_int <= len(ghm.get_repo()):
                 return user_type_repo_int
             else:#先生からのアドバイスのおかげで正しく太文字に出来ました。
@@ -55,11 +60,14 @@ def Listen_repo(ghm):
             print("\033[1m" + "pls type number\033[0m")
 
 def Function_selection(user_type_repo_int):
+    """
+    機能選択
+    """
     while True:
 
         print("pls select")
         options = ["clone", "Read README.md", "View folder", "View branch", "View Issue"]
-        #絶対最後になるようにappendで追加、ただこれif文なんとかするの忘れるとback選択したのに他の機能が発動するといったことになりそう
+        #今後機能追加しても絶対最後になるようにappendで追加
         options.append("back to select repo")
         for number, option in enumerate(options):
             print(number + 1, ":", option)
@@ -74,10 +82,10 @@ def Function_selection(user_type_repo_int):
         if user_type_option_int == 1:
             clone(user_type_repo_int)
 
-        elif user_type_option_int == 2:#長いけど、クラスへファイルから読み込んだトークンとユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてるだけ
+        elif user_type_option_int == 2:#クラスへファイルから読み込んだトークン＆ユーザーが選択したリポ名を投げてREADME.mdの内容が帰ってきてる
             print(ghm.read_readme(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
 
-        elif user_type_option_int == 3:#こっちも投げて値が帰ってきてるだけ
+        elif user_type_option_int == 3:#ここはフォルダ情報が返ってきてる
             print(ghm.read_folder_names(token[0].strip(),ghm.get_repo()[user_type_repo_int - 1]))
 
         elif user_type_option_int == 4:#ブランチ情報を表示
@@ -93,6 +101,9 @@ def Function_selection(user_type_repo_int):
             print("\033[1m" + "Out of range\033[0m")
 
 def clone(user_type_repo_int):
+    """
+    Git cloneコマンドをPythonから叩く
+    """
     while True:
 
         print("pls select branch")
@@ -115,7 +126,7 @@ def clone(user_type_repo_int):
         if len(branchs) < user_type_option_int:
             print("\033[1m" + "out of range\033[0m")
             continue
-        #なんか長いけど、ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名&ブランチ名を代入して実行してるだけ
+        #ファイルから読み込んだユーザー名＆ユーザーが選択したリポ名&ブランチ名を代入して実行する
         command = 'git clone -b '+ branchs[user_type_option_int - 1] +' https://github.com/'+token[0].strip()+'/'+ghm.get_repo()[user_type_repo_int - 1]
         #デバッグ用
         # print(command)
@@ -124,8 +135,7 @@ def clone(user_type_repo_int):
         print("\033[1m" + "clone is done\033[0m")
         Function_selection(user_type_repo_int)
 
-#最初は関数化してなかったのでとりあえずこうして変数に値を代入
-#もっとスマートなやり方ありそうな気がするけど、とりあえずこうする
+#もっとスマートなやり方がありそうな気がするが、現状はこうする
 user_type_repo_int = Listen_repo(ghm)
 
 Function_selection(user_type_repo_int)
