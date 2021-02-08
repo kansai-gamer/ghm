@@ -2,7 +2,7 @@
 
 ## 想定利用環境  
 
-* Linux系OS&macOSを対象とする。  
+* Linux系OS & macOSを対象とする。  
 * PythonバージョンはPython3系を対象とする。
 
 ## 依存モジュール
